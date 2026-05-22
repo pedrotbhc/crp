@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="tema-b">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorteio X1 — Alunos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       TEMAS 
+    ═══════════════════════════════════════════════════════════ */
+    html.tema-a {
+      --bg:          #F6F0E4;
+      --bg2:         #EDE6D3;
+      --bg3:         #E3DAC5;
+      --texto:       #1C1710;
+      --texto-leve:  #5C4F3A;
+      --acento:      #A83E1C;
+      --acento2:     #8B6E4E;
+      --slot-bg:     #EBE4D4;
+      --slot-borda:  #C4AD8C;
+      --slot-shadow: rgba(90,60,20,.18);
+      --ornamento:   #C4AD8C;
+      --linha:       rgba(28,23,16,.13);
+    }
+
+    html.tema-b {
+      --bg:          #0E0C09;
+      --bg2:         #161310;
+      --bg3:         #1D1912;
+      --texto:       #EDE6D3;
+      --texto-leve:  #9C8E78;
+      --acento:      #C9973A;
+      --acento2:     #8B7355;
+      --slot-bg:     #1A1712;
+      --slot-borda:  #3D3220;
+      --slot-shadow: rgba(200,150,50,.1);
+      --ornamento:   #3D3220;
+      --linha:       rgba(237,230,211,.1);
+    }
+
+    html.tema-c {
+      --bg:          #F9F9F7;
+      --bg2:         #F1F3EF;
+      --bg3:         #E8EDE5;
+      --texto:       #181A17;
+      --texto-leve:  #556055;
+      --acento:      #3A6B4A;
+      --acento2:     #5C8A6A;
+      --slot-bg:     #EEF1EB;
+      --slot-borda:  #AABFAE;
+      --slot-shadow: rgba(40,80,50,.12);
+      --ornamento:   #AABFAE;
+      --linha:       rgba(24,26,23,.1);
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--texto);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-width: 1100px;
+      overflow-x: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* seletor do tema */
+    #temas {
+      position: fixed;
+      top: 1.6rem;
+      right: 2rem;
+      z-index: 1000;
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+    }
+
+    #temas button {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      opacity: .55;
+    }
+
+    #temas button:hover  { opacity: 1; transform: scale(1.3); }
+    #temas button.ativo  { opacity: 1; transform: scale(1.2); box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px currentColor; }
+    #temas .ta { background: #A83E1C; color: #A83E1C; }
+    #temas .tb { background: #C9973A; color: #C9973A; }
+    #temas .tc { background: #3A6B4A; color: #3A6B4A; }
+
+    /* SLOTS */
+    .slot {
+      background: var(--slot-bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: .5rem;
+      box-shadow: 0 3px 10px var(--slot-shadow), 0 12px 40px var(--slot-shadow);
+      transition: transform .35s ease, box-shadow .35s ease;
+    }
+
+    .slot:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px var(--slot-shadow), 0 24px 60px var(--slot-shadow);
+    }
+
+    .slot::before { content:''; position:absolute; top:14px;    left:14px;    width:20px; height:20px; border:1.5px solid var(--slot-borda); border-right:none; border-bottom:none; opacity:.65; transition:opacity .3s; pointer-events:none; }
+    .slot::after  { content:''; position:absolute; bottom:14px; right:14px;   width:20px; height:20px; border:1.5px solid var(--slot-borda); border-left:none;  border-top:none;    opacity:.65; transition:opacity .3s; pointer-events:none; }
+    .slot:hover::before, .slot:hover::after { opacity:1; }
+
+    .slot-wrap { position: relative; }
+    .slot-wrap::before { content:''; position:absolute; top:14px;    right:14px;  width:20px; height:20px; border:1.5px solid var(--slot-borda); border-left:none;  border-bottom:none; opacity:.5; z-index:2; pointer-events:none; }
+    .slot-wrap::after  { content:''; position:absolute; bottom:14px; left:14px;   width:20px; height:20px; border:1.5px solid var(--slot-borda); border-right:none; border-top:none;    opacity:.5; z-index:2; pointer-events:none; }
+
+    .sp {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, var(--slot-borda) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    .sc {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+    .sc::before { content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:var(--slot-borda); opacity:.15; }
+    .sc::after  { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px;  background:var(--slot-borda); opacity:.15; }
+
+    .sl {
+      position: absolute;
+      bottom: 1.1rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--slot-borda);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: .85;
+    }
+
+    .slot.circular { border-radius: 50%; }
+    .slot.pill     { border-radius: 999px; }
+
+    /* HERO */
+    #hero {
+      width: 100%; min-height: 100vh;
+      position: relative;
+      display: grid;
+      grid-template-columns: 70px 1.1fr 2fr 1.1fr 70px;
+      grid-template-rows:    60px 1fr auto 1fr 85px;
+      overflow: hidden;
+      background: var(--bg);
+      transition: background .5s;
+    }
+
+    #hdeco {
+      position: absolute; inset: 0;
+      pointer-events: none; z-index: 0;
+    }
+
+    #hring {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none; z-index: 1;
+      transition: opacity .5s;
+    }
+
+    .hanno {
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--acento2);
+      opacity: .45;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .hanno.tl { top:1.4rem;    left:1.6rem;  }
+    .hanno.tr { top:1.4rem;    right:1.6rem; }
+    .hanno.bl { bottom:1.4rem; left:1.6rem;  }
+    .hanno.br { bottom:1.4rem; right:1.6rem; }
+
+    #titulo-principal {
+      grid-column: 3/4; grid-row: 3/4;
+      z-index: 10;
+      align-self: center; justify-self: center;
+      text-align: center;
+      padding: 2.5rem 3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5.5vw, 6.5rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      color: var(--texto);
+      white-space: nowrap;
+      position: absolute;
+    }
+
+    #subtitulo {
+      grid-column: 3/4; grid-row: 4/5;
+      z-index: 10;
+      align-self: start; justify-self: center;
+      margin-top: .4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--acento2);
+      text-align: center;
+    }
+
+    #scroll-hint {
+      grid-column: 3/4; grid-row: 5/6;
+      z-index: 10;
+      align-self: center; justify-self: center;
+      display: flex; flex-direction: column; align-items: center; gap: .35rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--acento2); opacity: .6;
+      animation: bob 2.5s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    #hero .slot { z-index: 5; }
+    .ha { grid-column:1/3; grid-row:1/4; clip-path:polygon(0 0,100% 0,82% 100%,0 100%); }
+    .hb { grid-column:3/5; grid-row:1/2; clip-path:polygon(0 0,100% 0,100% 65%,0 100%); }
+    .hc { grid-column:5/6; grid-row:1/3; }
+    .hd { grid-column:4/6; grid-row:2/5; clip-path:polygon(18% 0,100% 0,100% 100%,0 100%); }
+    .he { grid-column:1/3; grid-row:4/6; clip-path:polygon(0 0,88% 12%,100% 100%,0 100%); }
+    .hf { grid-column:3/4; grid-row:4/6; clip-path:polygon(8% 8%,92% 0%,100% 88%,0 100%); }
+    .hg { grid-column:4/6; grid-row:5/6; }
+
+    /* CONTEÚDO */
+    #conteudo {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 6rem;
+    }
+
+    .sn {
+      position: absolute;
+      left: -4rem; top: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6.5rem; font-weight: 300;
+      line-height: 1;
+      color: var(--acento);
+      opacity: .11;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -.04em;
+    }
+
+    .nm {
+      position: absolute;
+      right: -4.5rem; top: 50%;
+      transform: rotate(90deg) translateX(-50%);
+      transform-origin: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--acento2); opacity: .38;
+      white-space: nowrap; pointer-events: none;
+    }
+
+    .bt {
+      position: relative;
+      padding: 7rem 0 2rem;
+      max-width: 660px;
+    }
+    .bt.dir    { margin-left: auto; text-align: right; }
+    .bt.cen    { margin: 0 auto; text-align: center; max-width: 720px; }
+    .bt.larg   { max-width: 880px; }
+
+    .bt h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 2.8vw, 3.2rem);
+      font-weight: 400; line-height: 1.15;
+      margin-bottom: 1.8rem;
+      color: var(--texto);
+    }
+    .bt h2 em { font-style: italic; color: var(--acento); }
+
+    .bt p {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1.1rem, 1.35vw, 1.25rem);
+      line-height: 1.92;
+      color: var(--texto-leve);
+      margin-bottom: 1rem;
+    }
+
+    .dc::first-letter {
+      float: left;
+      font-family: 'Playfair Display', serif;
+      font-size: 5.5rem; font-weight: 700;
+      line-height: .74;
+      padding-right: .12em; padding-top: .1em;
+      color: var(--acento);
+    }
+
+    .bar {
+      border-left: 2px solid var(--acento);
+      padding-left: 1.8rem;
+    }
+
+    .pq {
+      position: relative;
+      padding: 3.5rem 5rem;
+      margin: 4rem 0;
+      text-align: center;
+    }
+    .pq::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--ornamento); opacity:.4; }
+    .pq::after  { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:var(--ornamento); opacity:.4; }
+
+    .pq blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.4vw, 2.4rem);
+      font-style: italic; font-weight: 400;
+      line-height: 1.4; color: var(--texto);
+    }
+    .pq cite {
+      display: block; margin-top: 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .82rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--acento2); font-style: normal;
+    }
+    .pq-q {
+      font-family: 'Playfair Display', serif;
+      font-size: 7rem; line-height: 0;
+      color: var(--acento); opacity: .14;
+      display: block; margin-bottom: -1rem;
+    }
+
+    .od {
+      display: flex; align-items: center; gap: 1.2rem;
+      margin: 4rem 0;
+      color: var(--ornamento);
+    }
+    .od::before, .od::after { content:''; flex:1; height:1px; background:var(--ornamento); opacity:.45; }
+    .od .g { font-family:'Cormorant Garamond',serif; font-size:1.3rem; opacity:.5; letter-spacing:.4em; padding-left:.4em; }
+
+    .lo { width:100%; height:1px; background:var(--linha); margin:3rem 0; }
+
+    .btop {
+      position: relative;
+      padding: 5rem 0;
+      max-width: 780px;
+    }
+    .btop.cen { margin: 0 auto; }
+    .btop.dir { margin-left: auto; }
+
+    .btop h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2vw, 2rem);
+      font-weight: 400; margin-bottom: 2.5rem;
+      color: var(--texto);
+    }
+
+    .btop ul, .btop ol {
+      list-style: none; padding: 0;
+      display: flex; flex-direction: column; gap: 0;
+      counter-reset: item;
+    }
+
+    .btop li {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      align-items: baseline;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--linha);
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1rem, 1.3vw, 1.2rem);
+      line-height: 1.65; color: var(--texto-leve);
+    }
+    .btop li:first-child { border-top: 1px solid var(--linha); }
+
+    .btop ol li::before {
+      counter-increment: item;
+      content: counter(item, decimal-leading-zero);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .72rem; letter-spacing: .1em;
+      color: var(--acento); opacity: .7;
+      align-self: center;
+    }
+    .btop ul li::before { content:'✦'; font-size:.58rem; color:var(--acento); opacity:.7; align-self:center; }
+
+    .duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      padding: 5rem 0;
+    }
+    .duo.inv    { direction: rtl; }
+    .duo.inv >* { direction: ltr; }
+    .duo.larg   { grid-template-columns: 3fr 2fr; }
+    .duo.alto   { grid-template-columns: 2fr 3fr; }
+
+    .duo .slot-wrap { width: 100%; }
+    .duo .slot        { width: 100%; aspect-ratio: 4/3; min-height: 320px; }
+    .duo .slot.h      { aspect-ratio: 3/4; }
+    .duo .slot.pano   { aspect-ratio: 16/9; }
+    .duo .slot.sq     { aspect-ratio: 1/1; }
+
+    .mosaico {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 200px 200px;
+      gap: 10px;
+      padding: 3rem 0;
+    }
+    .m1 { grid-column:1/6;  grid-row:1/2; }
+    .m2 { grid-column:6/9;  grid-row:1/2; }
+    .m3 { grid-column:9/13; grid-row:1/3; clip-path:polygon(0 0,100% 0,100% 100%,10% 100%); }
+    .m4 { grid-column:1/4;  grid-row:2/3; }
+    .m5 { grid-column:4/9;  grid-row:2/3; }
+    .mosaico .slot, .mosaico .slot-wrap { height: 100%; }
+
+    .sang { width:calc(100% + 12rem); margin-left:-6rem; margin:2rem -6rem; }
+    .sang .slot { width:100%; height:440px; }
+    .sang.diag .slot { clip-path:polygon(0 5%,100% 0,100% 95%,0 100%); }
+
+    .flutuante {
+      float: right; width: 360px;
+      margin: 0 0 2.5rem 3.5rem;
+      shape-outside: polygon(0 0,100% 0,100% 100%,15% 100%);
+    }
+    .flutuante .slot { width:100%; height:300px; clip-path:polygon(0 0,100% 0,100% 100%,15% 100%); }
+    .flutuante.esq { float:left; margin:0 3.5rem 2.5rem 0; shape-outside:polygon(0 0,100% 0,85% 100%,0 100%); }
+    .flutuante.esq .slot { clip-path:polygon(0 0,100% 0,85% 100%,0 100%); }
+
+    .trio {
+      display: flex; align-items: center;
+      justify-content: center; gap: 3rem;
+      padding: 5rem 0;
+    }
+    .trio .item { display:flex; flex-direction:column; align-items:center; gap:1.2rem; }
+    .trio .il {
+      font-family:'Cormorant Garamond',serif; font-size:.72rem;
+      letter-spacing:.2em; text-transform:uppercase;
+      color:var(--acento2); text-align:center; opacity:.7;
+    }
+
+    .pill-wrap { padding:1rem 0; }
+    .pill-wrap .slot.pill { width:100%; height:130px; }
+
+    .bgalt  { background:var(--bg2); margin:0 -6rem; padding:6rem 6rem; transition:background .5s; }
+    .bgalt2 { background:var(--bg3); margin:0 -6rem; padding:6rem 6rem; transition:background .5s; }
+
+    footer {
+      position: relative;
+      padding: 5rem 6rem;
+      margin-top: 6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer::before {
+      content:''; position:absolute; top:0; left:6rem; right:6rem;
+      height:1px; background:var(--ornamento); opacity:.35;
+    }
+    footer p {
+      font-family:'Cormorant Garamond',serif; font-size:.8rem;
+      letter-spacing:.18em; text-transform:uppercase;
+      color:var(--acento2); opacity:.5;
+    }
+    .fo { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--ornamento); opacity:.3; letter-spacing:.4em; }
+
+    /* botões da página */
+    .action-btn {
+      padding: .85rem 1.25rem;
+      border: 1px solid var(--slot-borda);
+      background: transparent;
+      color: var(--texto);
+      font: inherit;
+      cursor: pointer;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.04);
+      border-color: var(--acento);
+    }
+
+    #p1-name, #p2-name, #action-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 2.6vw, 3rem);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--texto);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="temas" aria-label="Seleção de tema">
+    <button class="ta" onclick="setTema('tema-a')" title="Tema creme & terracota"></button>
+    <button class="tb ativo" onclick="setTema('tema-b')" title="Tema noite & ouro"></button>
+    <button class="tc" onclick="setTema('tema-c')" title="Tema branco & folha"></button>
+  </div>
+
+  <section id="hero">
+    <div id="hdeco"></div>
+    <div id="hring"></div>
+
+    <span class="hanno tl">arena x1</span>
+    <span class="hanno tr">sorteio de alunos</span>
+    <span class="hanno bl">round único</span>
+    <span class="hanno br">independente</span>
+
+    <div class="slot ha"><div class="sp"></div><div class="sc"></div><span class="sl">combate</span></div>
+    <div class="slot hb"><div class="sp"></div><div class="sc"></div><span class="sl">tensão</span></div>
+    <div class="slot hc"><div class="sp"></div><div class="sc"></div><span class="sl">foco</span></div>
+    <div class="slot hd"><div class="sp"></div><div class="sc"></div><span class="sl">ritmo</span></div>
+    <div class="slot he"><div class="sp"></div><div class="sc"></div><span class="sl">disciplina</span></div>
+    <div class="slot hf"><div class="sp"></div><div class="sc"></div><span class="sl">técnica</span></div>
+    <div class="slot hg"><div class="sp"></div><div class="sc"></div><span class="sl">arena</span></div>
+
+    <h1 id="titulo-principal">Arena X1</h1>
+    <div id="subtitulo">sorteio marcial de alunos e tarefa</div>
+    <div id="scroll-hint">
+      <span>role</span>
+      <span>↓</span>
+    </div>
+  </section>
+
+  <main id="conteudo">
+    <div class="bt cen" style="padding-top:6rem;">
+      <span class="sn">01</span>
+      <h2>Defina os <em>alunos</em></h2>
+      <p>
+        Cada lado pode ser sorteado separadamente. A esquerda define o primeiro aluno,
+        a direita define o segundo aluno, e o painel inferior sorteia a tarefa do duelo.
+      </p>
+    </div>
+
+    <div class="od"><span class="g">✦ ✦ ✦</span></div>
+
+    <div class="duo">
+      <div class="slot-wrap">
+        <div class="slot sq" id="p1-slot">
+          <div class="sp"></div>
+          <div class="sc"></div>
+          <span class="sl">aluno da esquerda</span>
+          <h2 id="p1-name" style="position:relative; z-index:1; text-align:center; margin:0 1rem;">Aluno 1</h2>
+          <button class="action-btn" onclick="sortearP1()" style="position:relative; z-index:1;">
+            Sortear aluno 1
+          </button>
+        </div>
+      </div>
+
+      <div class="slot-wrap">
+        <div class="slot sq" id="p2-slot">
+          <div class="sp"></div>
+          <div class="sc"></div>
+          <span class="sl">aluno da direita</span>
+          <h2 id="p2-name" style="position:relative; z-index:1; text-align:center; margin:0 1rem;">Aluno 2</h2>
+          <button class="action-btn" onclick="sortearP2()" style="position:relative; z-index:1;">
+            Sortear aluno 2
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="od"><span class="g">§</span></div>
+
+    <div class="bgalt">
+      <div class="bt cen">
+        <span class="sn">02</span>
+        <h2>O que cada um deve <em>fazer</em></h2>
+        <p>
+          O sorteio abaixo define a tarefa do x1. Sem descrição, sem novela, sem discurso de coach em crise.
+        </p>
+      </div>
+
+      <div class="slot-wrap" style="max-width: 780px; margin: 0 auto;">
+        <div class="slot pano" id="action-slot">
+          <div class="sp"></div>
+          <div class="sc"></div>
+          <span class="sl">tarefa do combate</span>
+          <h2 id="action-name" style="position:relative; z-index:1; text-align:center; margin:0 1rem;">Tarefa</h2>
+          <button class="action-btn" onclick="sortearAcao()" style="position:relative; z-index:1;">
+            Sortear tarefa
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bt cen" style="padding-top:7rem; padding-bottom:7rem;">
+      <span class="sn">03</span>
+      <h2>Pronto para o <em>duelo</em></h2>
+      <p>
+        Dois alunos, uma tarefa e nenhum drama. Aí é só sortear e deixar o caos organizado fazer o trabalho sujo.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>arena x1 • sorteio de alunos</p>
+    <div class="fo">X1</div>
+    <p id="status">aguardando sorteio</p>
+  </footer>
+
+  <script>
+    const alunos = [
+      "Aluno do Norte",
+      "Sombra do Tatame",
+      "Líder da Guarda",
+      "Monge do Ritmo",
+      "Samurai do Corredor",
+      "Karatê de Sala",
+      "Mestre do Rebate",
+      "Aluno Berserker"
+    ];
+
+    const tarefas = [
+      "Atacar",
+      "Defender",
+      "Esquivar",
+      "Avançar",
+      "Recuar",
+      "Contra-atacar",
+      "Trocar base",
+      "Dominar o centro"
+    ];
+
+    function rand(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function setTema(tema) {
+      document.documentElement.className = tema;
+
+      const botoes = document.querySelectorAll("#temas button");
+      botoes.forEach(btn => btn.classList.remove("ativo"));
+
+      if (tema === "tema-a") document.querySelector("#temas .ta").classList.add("ativo");
+      if (tema === "tema-b") document.querySelector("#temas .tb").classList.add("ativo");
+      if (tema === "tema-c") document.querySelector("#temas .tc").classList.add("ativo");
+    }
+
+    function sortearP1() {
+      document.getElementById("p1-name").innerText = rand(alunos);
+      document.getElementById("status").innerText = "aluno 1 sorteado";
+    }
+
+    function sortearP2() {
+      document.getElementById("p2-name").innerText = rand(alunos);
+      document.getElementById("status").innerText = "aluno 2 sorteado";
+    }
+
+    function sortearAcao() {
+      document.getElementById("action-name").innerText = rand(tarefas);
+      document.getElementById("status").innerText = "tarefa sorteada";
+    }
+
+    setTema("tema-b");
+  </script>
+</body>
+</html>
