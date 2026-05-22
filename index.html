@@ -2,17 +2,15 @@
 <html lang="pt-BR" class="tema-c">
 <head>
   <meta charset="UTF-8">
-  <title>Corpo — Educação Física</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artes Marciais — Arena X1</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
   <style>
-
     /* ═══════════════════════════════════════════════════════════
-       TEMAS 
-         tema-a  →  Creme & Terracota   (padrão editorial)
-         tema-b  →  Noite & Ouro        (dramático)
-         tema-c  →  Branco & Folha      (fresco / contemporâneo)
+       TEMAS
     ═══════════════════════════════════════════════════════════ */
-
     html.tema-a {
       --bg:          #F6F0E4;
       --bg2:         #EDE6D3;
@@ -60,7 +58,6 @@
 
     /* ─── RESET ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { font-size: 16px; scroll-behavior: smooth; }
 
     body {
@@ -72,7 +69,6 @@
       transition: background 0.5s ease, color 0.5s ease;
     }
 
-    /* grão de papel (mds isso foi um LICO FAAAAAAZZZZZZEEEERRRRR) */
     body::after {
       content: '';
       position: fixed;
@@ -130,39 +126,38 @@
       box-shadow: 0 6px 20px var(--slot-shadow), 0 24px 60px var(--slot-shadow);
     }
 
-    /* ornamentos de canto  dois via pseud dois via .slot-wrap */
-    .slot::before { content:''; position:absolute; top:14px;    left:14px;    width:20px; height:20px; border:1.5px solid var(--slot-borda); border-right:none; border-bottom:none; opacity:.65; transition:opacity .3s; pointer-events:none; }
-    .slot::after  { content:''; position:absolute; bottom:14px; right:14px;   width:20px; height:20px; border:1.5px solid var(--slot-borda); border-left:none;  border-top:none;    opacity:.65; transition:opacity .3s; pointer-events:none; }
+    .slot::before { content:''; position:absolute; top:14px; left:14px; width:20px; height:20px; border:1.5px solid var(--slot-borda); border-right:none; border-bottom:none; opacity:.65; transition:opacity .3s; pointer-events:none; z-index:3; }
+    .slot::after  { content:''; position:absolute; bottom:14px; right:14px; width:20px; height:20px; border:1.5px solid var(--slot-borda); border-left:none; border-top:none; opacity:.65; transition:opacity .3s; pointer-events:none; z-index:3; }
     .slot:hover::before, .slot:hover::after { opacity:1; }
 
     .slot-wrap { position: relative; }
-    .slot-wrap::before { content:''; position:absolute; top:14px;    right:14px;  width:20px; height:20px; border:1.5px solid var(--slot-borda); border-left:none;  border-bottom:none; opacity:.5; z-index:2; pointer-events:none; }
-    .slot-wrap::after  { content:''; position:absolute; bottom:14px; left:14px;   width:20px; height:20px; border:1.5px solid var(--slot-borda); border-right:none; border-top:none;    opacity:.5; z-index:2; pointer-events:none; }
+    .slot-wrap::before { content:''; position:absolute; top:14px; right:14px; width:20px; height:20px; border:1.5px solid var(--slot-borda); border-left:none; border-bottom:none; opacity:.5; z-index:2; pointer-events:none; }
+    .slot-wrap::after  { content:''; position:absolute; bottom:14px; left:14px; width:20px; height:20px; border:1.5px solid var(--slot-borda); border-right:none; border-top:none; opacity:.5; z-index:2; pointer-events:none; }
 
-    /* padrão pontilhado interno */
     .sp {
       position: absolute; inset: 0;
       background-image: radial-gradient(circle, var(--slot-borda) 1px, transparent 1px);
       background-size: 24px 24px;
       opacity: .18;
       pointer-events: none;
+      z-index: 1;
     }
 
-    /* cruzes de composição */
     .sc {
       position: absolute; inset: 0;
       pointer-events: none;
+      z-index: 1;
     }
     .sc::before { content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:var(--slot-borda); opacity:.15; }
-    .sc::after  { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px;  background:var(--slot-borda); opacity:.15; }
+    .sc::after  { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--slot-borda); opacity:.15; }
 
-    /* ícone de placeholder */
     .si {
       pointer-events: none;
       opacity: .16;
+      position: relative;
+      z-index: 2;
     }
 
-    /* label */
     .sl {
       position: absolute;
       bottom: 1.1rem; left: 50%;
@@ -175,41 +170,59 @@
       white-space: nowrap;
       pointer-events: none;
       opacity: .85;
+      z-index: 2;
     }
 
-    /* variantes de forma */
     .slot.circular { border-radius: 50%; }
     .slot.pill     { border-radius: 999px; }
+
+    .img-slot {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+      filter: saturate(.95) contrast(1.05);
+    }
+
+    .slot .content {
+      position: relative;
+      z-index: 2;
+    }
 
     /* ═══════════════════════════════════════════════════════════
        HERO
     ═══════════════════════════════════════════════════════════ */
     #hero {
-      width: 100%; min-height: 100vh;
+      width: 100%;
+      min-height: 100vh;
       position: relative;
       display: grid;
       grid-template-columns: 70px 1.1fr 2fr 1.1fr 70px;
-      grid-template-rows:    60px 1fr auto 1fr 85px;
+      grid-template-rows: 60px 1fr auto 1fr 85px;
       overflow: hidden;
       background: var(--bg);
       transition: background .5s;
     }
 
-    /* deco de fundo */
     #hdeco {
-      position: absolute; inset: 0;
-      pointer-events: none; z-index: 0;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* anel ornamental */
     #hring {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
       transform: translate(-50%,-50%);
-      pointer-events: none; z-index: 1;
+      pointer-events: none;
+      z-index: 1;
       transition: opacity .5s;
     }
 
-    /* marcas de canto */
     .hanno {
       position: absolute;
       font-family: 'Cormorant Garamond', serif;
@@ -221,20 +234,19 @@
       pointer-events: none;
       z-index: 20;
     }
-    .hanno.tl { top:1.4rem;    left:1.6rem;  }
-    .hanno.tr { top:1.4rem;    right:1.6rem; }
-    .hanno.bl { bottom:1.4rem; left:1.6rem;  }
+    .hanno.tl { top:1.4rem; left:1.6rem; }
+    .hanno.tr { top:1.4rem; right:1.6rem; }
+    .hanno.bl { bottom:1.4rem; left:1.6rem; }
     .hanno.br { bottom:1.4rem; right:1.6rem; }
 
-    /* TÍTULO PRINCIPAL */
     #titulo-principal {
-      grid-column: 3/4; grid-row: 3/4;
+      grid-column: 3/4;
+      grid-row: 3/4;
       z-index: 10;
-      align-self: center; justify-self: center;
+      align-self: center;
+      justify-self: center;
       text-align: center;
       padding: 2.5rem 3rem;
-
-      /* NAO POSSO ESQUECER DISSO*/
       font-family: 'Playfair Display', serif;
       font-size: clamp(3rem, 5.5vw, 6.5rem);
       font-weight: 400;
@@ -242,15 +254,16 @@
       line-height: 1.05;
       letter-spacing: -.01em;
       color: var(--texto);
-      
       white-space: nowrap;
       position: absolute;
     }
 
     #subtitulo {
-      grid-column: 3/4; grid-row: 4/5;
+      grid-column: 3/4;
+      grid-row: 4/5;
       z-index: 10;
-      align-self: start; justify-self: center;
+      align-self: start;
+      justify-self: center;
       margin-top: .4rem;
       font-family: 'Cormorant Garamond', serif;
       font-size: 1rem;
@@ -261,18 +274,25 @@
     }
 
     #scroll-hint {
-      grid-column: 3/4; grid-row: 5/6;
+      grid-column: 3/4;
+      grid-row: 5/6;
       z-index: 10;
-      align-self: center; justify-self: center;
-      display: flex; flex-direction: column; align-items: center; gap: .35rem;
+      align-self: center;
+      justify-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
       font-family: 'Cormorant Garamond', serif;
-      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--acento2); opacity: .6;
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--acento2);
+      opacity: .6;
       animation: bob 2.5s ease-in-out infinite;
     }
     @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
-    /* slots do hero */
     #hero .slot { z-index: 5; }
     .ha { grid-column:1/3; grid-row:1/4; clip-path:polygon(0 0,100% 0,82% 100%,0 100%); }
     .hb { grid-column:3/5; grid-row:1/2; clip-path:polygon(0 0,100% 0,100% 65%,0 100%); }
@@ -291,12 +311,13 @@
       padding: 0 6rem;
     }
 
-    /* número de seção */
     .sn {
       position: absolute;
-      left: -4rem; top: 0;
+      left: -4rem;
+      top: 0;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 6.5rem; font-weight: 300;
+      font-size: 6.5rem;
+      font-weight: 300;
       line-height: 1;
       color: var(--acento);
       opacity: .11;
@@ -305,19 +326,22 @@
       letter-spacing: -.04em;
     }
 
-    /* nota de margem */
     .nm {
       position: absolute;
-      right: -4.5rem; top: 50%;
+      right: -4.5rem;
+      top: 50%;
       transform: rotate(90deg) translateX(-50%);
       transform-origin: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
-      color: var(--acento2); opacity: .38;
-      white-space: nowrap; pointer-events: none;
+      font-size: .62rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--acento2);
+      opacity: .38;
+      white-space: nowrap;
+      pointer-events: none;
     }
 
-    /* ── Bloco de texto ── */
     .bt {
       position: relative;
       padding: 7rem 0 2rem;
@@ -330,7 +354,8 @@
     .bt h2 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2rem, 2.8vw, 3.2rem);
-      font-weight: 400; line-height: 1.15;
+      font-weight: 400;
+      line-height: 1.15;
       margin-bottom: 1.8rem;
       color: var(--texto);
     }
@@ -344,23 +369,22 @@
       margin-bottom: 1rem;
     }
 
-    /* drop cap */
     .dc::first-letter {
       float: left;
       font-family: 'Playfair Display', serif;
-      font-size: 5.5rem; font-weight: 700;
+      font-size: 5.5rem;
+      font-weight: 700;
       line-height: .74;
-      padding-right: .12em; padding-top: .1em;
+      padding-right: .12em;
+      padding-top: .1em;
       color: var(--acento);
     }
 
-    /* barra lateral de acento */
     .bar {
       border-left: 2px solid var(--acento);
       padding-left: 1.8rem;
     }
 
-    /* ── Pull quote ── */
     .pq {
       position: relative;
       padding: 3.5rem 5rem;
@@ -373,34 +397,55 @@
     .pq blockquote {
       font-family: 'Playfair Display', serif;
       font-size: clamp(1.5rem, 2.4vw, 2.4rem);
-      font-style: italic; font-weight: 400;
-      line-height: 1.4; color: var(--texto);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--texto);
     }
     .pq cite {
-      display: block; margin-top: 1.2rem;
+      display: block;
+      margin-top: 1.2rem;
       font-family: 'Cormorant Garamond', serif;
-      font-size: .82rem; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--acento2); font-style: normal;
+      font-size: .82rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--acento2);
+      font-style: normal;
     }
     .pq-q {
       font-family: 'Playfair Display', serif;
-      font-size: 7rem; line-height: 0;
-      color: var(--acento); opacity: .14;
-      display: block; margin-bottom: -1rem;
+      font-size: 7rem;
+      line-height: 0;
+      color: var(--acento);
+      opacity: .14;
+      display: block;
+      margin-bottom: -1rem;
     }
 
-    /* ── Divisores ornamentais ── */
     .od {
-      display: flex; align-items: center; gap: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
       margin: 4rem 0;
       color: var(--ornamento);
     }
-    .od::before, .od::after { content:''; flex:1; height:1px; background:var(--ornamento); opacity:.45; }
-    .od .g { font-family:'Cormorant Garamond',serif; font-size:1.3rem; opacity:.5; letter-spacing:.4em; padding-left:.4em; }
+    .od::before, .od::after {
+      content:'';
+      flex:1;
+      height:1px;
+      background:var(--ornamento);
+      opacity:.45;
+    }
+    .od .g {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.3rem;
+      opacity:.5;
+      letter-spacing:.4em;
+      padding-left:.4em;
+    }
 
     .lo { width:100%; height:1px; background:var(--linha); margin:3rem 0; }
 
-    /* ── Bloco de tópicos ── */
     .btop {
       position: relative;
       padding: 5rem 0;
@@ -412,13 +457,17 @@
     .btop h3 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(1.4rem, 2vw, 2rem);
-      font-weight: 400; margin-bottom: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 2.5rem;
       color: var(--texto);
     }
 
     .btop ul, .btop ol {
-      list-style: none; padding: 0;
-      display: flex; flex-direction: column; gap: 0;
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
       counter-reset: item;
     }
 
@@ -430,7 +479,8 @@
       border-bottom: 1px solid var(--linha);
       font-family: 'EB Garamond', serif;
       font-size: clamp(1rem, 1.3vw, 1.2rem);
-      line-height: 1.65; color: var(--texto-leve);
+      line-height: 1.65;
+      color: var(--texto-leve);
     }
     .btop li:first-child { border-top: 1px solid var(--linha); }
 
@@ -438,13 +488,20 @@
       counter-increment: item;
       content: counter(item, decimal-leading-zero);
       font-family: 'Cormorant Garamond', serif;
-      font-size: .72rem; letter-spacing: .1em;
-      color: var(--acento); opacity: .7;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      color: var(--acento);
+      opacity: .7;
       align-self: center;
     }
-    .btop ul li::before { content:'✦'; font-size:.58rem; color:var(--acento); opacity:.7; align-self:center; }
+    .btop ul li::before {
+      content:'✦';
+      font-size:.58rem;
+      color:var(--acento);
+      opacity:.7;
+      align-self:center;
+    }
 
-    /* ── Duo ── */
     .duo {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -458,12 +515,11 @@
     .duo.alto   { grid-template-columns: 2fr 3fr; }
 
     .duo .slot-wrap { width: 100%; }
-    .duo .slot        { width: 100%; aspect-ratio: 4/3; }
-    .duo .slot.h      { aspect-ratio: 3/4; }
-    .duo .slot.pano   { aspect-ratio: 16/9; }
-    .duo .slot.sq     { aspect-ratio: 1/1; }
+    .duo .slot { width: 100%; aspect-ratio: 4/3; min-height: 320px; }
+    .duo .slot.h { aspect-ratio: 3/4; }
+    .duo .slot.pano { aspect-ratio: 16/9; }
+    .duo .slot.sq { aspect-ratio: 1/1; }
 
-    /* ── Mosaico ── */
     .mosaico {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -478,14 +534,13 @@
     .m5 { grid-column:4/9;  grid-row:2/3; }
     .mosaico .slot, .mosaico .slot-wrap { height: 100%; }
 
-    /* ── Sangrado ── */
     .sang { width:calc(100% + 12rem); margin-left:-6rem; margin:2rem -6rem; }
     .sang .slot { width:100%; height:440px; }
     .sang.diag .slot { clip-path:polygon(0 5%,100% 0,100% 95%,0 100%); }
 
-    /* ── Flutuante ── */
     .flutuante {
-      float: right; width: 360px;
+      float: right;
+      width: 360px;
       margin: 0 0 2.5rem 3.5rem;
       shape-outside: polygon(0 0,100% 0,100% 100%,15% 100%);
     }
@@ -493,30 +548,36 @@
     .flutuante.esq { float:left; margin:0 3.5rem 2.5rem 0; shape-outside:polygon(0 0,100% 0,85% 100%,0 100%); }
     .flutuante.esq .slot { clip-path:polygon(0 0,100% 0,85% 100%,0 100%); }
 
-    /* ── Trio circular ── */
     .trio {
-      display: flex; align-items: center;
-      justify-content: center; gap: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
       padding: 5rem 0;
+      flex-wrap: wrap;
     }
-    .trio .item { display:flex; flex-direction:column; align-items:center; gap:1.2rem; }
+    .trio .item {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:1.2rem;
+    }
     .trio .il {
-      font-family:'Cormorant Garamond',serif; font-size:.72rem;
-      letter-spacing:.2em; text-transform:uppercase;
-      color:var(--acento2); text-align:center; opacity:.7;
+      font-family:'Cormorant Garamond',serif;
+      font-size:.72rem;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:var(--acento2);
+      text-align:center;
+      opacity:.7;
     }
 
-    /* ── Pill ── */
     .pill-wrap { padding:1rem 0; }
     .pill-wrap .slot.pill { width:100%; height:130px; }
 
-    /* ── Fundo alternado ── */
     .bgalt  { background:var(--bg2); margin:0 -6rem; padding:6rem 6rem; transition:background .5s; }
     .bgalt2 { background:var(--bg3); margin:0 -6rem; padding:6rem 6rem; transition:background .5s; }
 
-    /* ═══════════════════════════════════════════════════════════
-       RODAPÉ
-    ═══════════════════════════════════════════════════════════ */
     footer {
       position: relative;
       padding: 5rem 6rem;
@@ -526,382 +587,448 @@
       justify-content: space-between;
     }
     footer::before {
-      content:''; position:absolute; top:0; left:6rem; right:6rem;
-      height:1px; background:var(--ornamento); opacity:.35;
+      content:'';
+      position:absolute;
+      top:0; left:6rem; right:6rem;
+      height:1px;
+      background:var(--ornamento);
+      opacity:.35;
     }
     footer p {
-      font-family:'Cormorant Garamond',serif; font-size:.8rem;
-      letter-spacing:.18em; text-transform:uppercase;
-      color:var(--acento2); opacity:.5;
+      font-family:'Cormorant Garamond',serif;
+      font-size:.8rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--acento2);
+      opacity:.5;
     }
-    .fo { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--ornamento); opacity:.3; letter-spacing:.4em; }
+    .fo {
+      font-family:'Playfair Display',serif;
+      font-size:1.4rem;
+      color:var(--ornamento);
+      opacity:.3;
+      letter-spacing:.4em;
+    }
 
+    .action-btn {
+      padding: .85rem 1.25rem;
+      border: 1px solid var(--slot-borda);
+      background: transparent;
+      color: var(--texto);
+      font: inherit;
+      cursor: pointer;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      position: relative;
+      z-index: 2;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.04);
+      border-color: var(--acento);
+    }
+
+    #p1-name, #p2-name, #action-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 2.6vw, 3rem);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--texto);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    #p1-desc, #p2-desc, #action-desc {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 80%;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1200px) {
+      body { min-width: 0; }
+      #conteudo { padding: 0 2rem; }
+      .bgalt, .bgalt2 { margin: 0 -2rem; padding: 4rem 2rem; }
+      .sang { width: auto; margin-left: 0; margin-right: 0; }
+      footer { padding: 4rem 2rem; }
+      footer::before { left: 2rem; right: 2rem; }
+      #hero {
+        grid-template-columns: 30px 1fr 1fr 1fr 30px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .duo, .duo.alto, .duo.larg {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .trio { gap: 1.5rem; }
+      .mosaico {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, 180px);
+      }
+      .m1, .m2, .m3, .m4, .m5 { grid-column: auto; grid-row: auto; clip-path: none; }
+      #titulo-principal { white-space: normal; font-size: clamp(2.4rem, 9vw, 4rem); }
+    }
   </style>
 </head>
-<body>
 
-  <!-- seletor de tema -->
-  <div id="temas" title="Trocar tema de cores">
-    <button class="ta ativo" onclick="setTema('a')"></button>
-    <button class="tb"       onclick="setTema('b')"></button>
-    <button class="tc"       onclick="setTema('c')"></button>
+<body>
+  <div id="temas" aria-label="Seleção de tema">
+    <button class="ta" onclick="setTema('a')" title="Tema creme & terracota"></button>
+    <button class="tb" onclick="setTema('b')" title="Tema noite & ouro"></button>
+    <button class="tc ativo" onclick="setTema('c')" title="Tema branco & folha"></button>
   </div>
 
-
-  <!-- ══════════════════════════════════════════
-       HERO
-  ══════════════════════════════════════════ -->
   <section id="hero">
+    <div id="hdeco">
+      <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="38" height="38" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="var(--ornamento)" opacity=".28"/>
+          </pattern>
+        </defs>
+        <rect width="1440" height="900" fill="url(#dots)"/>
+        <line x1="440" y1="0" x2="0" y2="440" stroke="var(--ornamento)" stroke-width=".8" opacity=".18"/>
+        <line x1="900" y1="0" x2="0" y2="900" stroke="var(--ornamento)" stroke-width=".6" opacity=".1"/>
+        <line x1="1440" y1="180" x2="1060" y2="900" stroke="var(--ornamento)" stroke-width=".8" opacity=".18"/>
+        <line x1="1440" y1="0" x2="540" y2="900" stroke="var(--ornamento)" stroke-width=".6" opacity=".1"/>
+        <line x1="0" y1="450" x2="1440" y2="450" stroke="var(--ornamento)" stroke-width=".5" opacity=".12"/>
+        <line x1="720" y1="0" x2="720" y2="900" stroke="var(--ornamento)" stroke-width=".5" opacity=".12"/>
+      </svg>
+    </div>
 
-    <!-- grade decorativa de fundo -->
-    <svg id="hdeco" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="dots" x="0" y="0" width="38" height="38" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="1" fill="var(--ornamento)" opacity=".28"/>
-        </pattern>
-      </defs>
-      <rect width="1440" height="900" fill="url(#dots)"/>
-      <!-- diagonais sutis -->
-      <line x1="440"  y1="0"   x2="0"    y2="440"  stroke="var(--ornamento)" stroke-width=".8" opacity=".18"/>
-      <line x1="900"  y1="0"   x2="0"    y2="900"  stroke="var(--ornamento)" stroke-width=".6" opacity=".1"/>
-      <line x1="1440" y1="180" x2="1060" y2="900"  stroke="var(--ornamento)" stroke-width=".8" opacity=".18"/>
-      <line x1="1440" y1="0"   x2="540"  y2="900"  stroke="var(--ornamento)" stroke-width=".6" opacity=".1"/>
-      <!-- cruzetas centrais -->
-      <line x1="0" y1="450" x2="1440" y2="450" stroke="var(--ornamento)" stroke-width=".5" opacity=".12"/>
-      <line x1="720" y1="0" x2="720"  y2="900" stroke="var(--ornamento)" stroke-width=".5" opacity=".12"/>
-    </svg>
-
-    <!-- anel ornamental -->
     <svg id="hring" width="540" height="540" viewBox="0 0 540 540" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="270" cy="270" r="250" stroke="var(--acento)"    stroke-width=".9" opacity=".1"/>
+      <circle cx="270" cy="270" r="250" stroke="var(--acento)" stroke-width=".9" opacity=".1"/>
       <circle cx="270" cy="270" r="208" stroke="var(--ornamento)" stroke-width=".6" opacity=".14" stroke-dasharray="7 12"/>
       <circle cx="270" cy="270" r="166" stroke="var(--ornamento)" stroke-width=".5" opacity=".09"/>
-      <circle cx="270" cy="270" r="5"   fill="var(--acento)"      opacity=".25"/>
-      <!-- marcas cardeais -->
-      <line x1="266" y1="18"  x2="274" y2="18"  stroke="var(--acento)" stroke-width="1.2" opacity=".22"/>
+      <circle cx="270" cy="270" r="5" fill="var(--acento)" opacity=".25"/>
+      <line x1="266" y1="18" x2="274" y2="18" stroke="var(--acento)" stroke-width="1.2" opacity=".22"/>
       <line x1="266" y1="522" x2="274" y2="522" stroke="var(--acento)" stroke-width="1.2" opacity=".22"/>
-      <line x1="18"  y1="266" x2="18"  y2="274" stroke="var(--acento)" stroke-width="1.2" opacity=".22"/>
+      <line x1="18" y1="266" x2="18" y2="274" stroke="var(--acento)" stroke-width="1.2" opacity=".22"/>
       <line x1="522" y1="266" x2="522" y2="274" stroke="var(--acento)" stroke-width="1.2" opacity=".22"/>
-      <!-- marcas diagonais -->
-      <line x1="91"  y1="91"  x2="97"  y2="97"  stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
-      <line x1="443" y1="91"  x2="449" y2="97"  stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
-      <line x1="91"  y1="443" x2="97"  y2="449" stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
+      <line x1="91" y1="91" x2="97" y2="97" stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
+      <line x1="443" y1="91" x2="449" y2="97" stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
+      <line x1="91" y1="443" x2="97" y2="449" stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
       <line x1="443" y1="443" x2="449" y2="449" stroke="var(--ornamento)" stroke-width="1" opacity=".18"/>
     </svg>
 
-    <!-- rótulos de canto -->
     <span class="hanno tl">I</span>
     <span class="hanno tr">✦</span>
     <span class="hanno bl">✦</span>
     <span class="hanno br">II</span>
 
-    <!-- ── SLOTS DO HERO ── -->
-
+    <!-- 9 imagens no total -->
     <div class="slot ha">
       <div class="sp"></div><div class="sc"></div>
-      <svg class="si" width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="var(--slot-borda)" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
-        <rect x="6" y="6" width="40" height="40" rx="1"/><line x1="6" y1="36" x2="52" y2="20"/>
-        <circle cx="34" cy="16" r="5"/>
-      </svg>
-      <span class="sl">imagem · desenho · SVG</span>
+      <img class="img-slot" src="img1.jpg" alt="Artes marciais 1">
+      <span class="sl">imagem principal</span>
     </div>
 
     <div class="slot hb">
       <div class="sp"></div>
-      <svg class="si" width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="var(--slot-borda)" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
-        <rect x="6" y="6" width="40" height="40" rx="1"/>
-        <path d="M6 36 L18 24 L28 30 L38 20 L46 26"/>
-      </svg>
-      <span class="sl">faixa de topo</span>
+      <img class="img-slot" src="img2.jpg" alt="Artes marciais 2">
+      <span class="sl">topo</span>
     </div>
 
     <div class="slot hc">
       <div class="sp"></div>
+      <img class="img-slot" src="img3.jpg" alt="Artes marciais 3">
       <span class="sl">canto</span>
     </div>
 
-    <!-- ── TÍTULO PRINCIPAL ── edite aqui ── -->
-    <p id="titulo-principal">
-      Artes Marciais
-    </p>
-
-    <!-- subtítulo / tagline — edite ou delete -->
-    <p id="subtitulo">subtítulo · tagline</p>
+    <p id="titulo-principal">Artes Marciais</p>
+    <p id="subtitulo"></p>
 
     <div class="slot hd">
       <div class="sp"></div><div class="sc"></div>
+      <img class="img-slot" src="img4.jpg" alt="Artes marciais 4">
       <svg class="si" width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="var(--slot-borda)" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg">
         <rect x="6" y="6" width="40" height="40" rx="1"/>
         <circle cx="26" cy="22" r="8"/>
         <path d="M8 44 L18 32 L26 38 L34 28 L44 40"/>
       </svg>
-      <span class="sl">lateral direita</span>
+      <span class="sl"></span>
     </div>
 
     <div class="slot he">
       <div class="sp"></div>
-      <span class="sl">faixa inferior esquerda</span>
+      <img class="img-slot" src="img5.jpg" alt="Artes marciais 5">
+      <span class="sl"></span>
     </div>
 
     <div class="slot hf">
       <div class="sp"></div>
-      <span class="sl">losango</span>
+      <img class="img-slot" src="img6.jpg" alt="Artes marciais 6">
+      <span class="sl"></span>
     </div>
 
     <div class="slot hg">
       <div class="sp"></div>
-      <span class="sl">tira rodapé</span>
+      <img class="img-slot" src="img7.jpg" alt="Artes marciais 7">
+      <span class="sl"></span>
     </div>
 
-    <!-- indicador de scroll -->
     <div id="scroll-hint">
       <span>rolar</span>
       <svg width="14" height="22" viewBox="0 0 14 22" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-        <line x1="7" y1="0" x2="7" y2="18"/><polyline points="2,13 7,18 12,13"/>
+        <line x1="7" y1="0" x2="7" y2="18"></line>
+        <polyline points="2,13 7,18 12,13"></polyline>
       </svg>
     </div>
-
   </section>
 
-
-<main id="conteudo">
-
-  <!-- TEXTO 1 -->
-  <div class="bt" style="padding-top:9rem;">
-    <span class="sn">01</span>
-    <span class="nm">origem do caminho</span>
-    <h2>O espírito das <em>artes marciais</em></h2>
-    <p class="dc">
-      Artes marciais são mais do que luta: são disciplina, controle emocional,
-      técnica refinada e respeito ao próprio limite.
-    </p>
-    <p>
-      Antes do golpe existe postura. Antes da postura existe atenção. E antes da
-      atenção existe treino. O caminho marcial não depende apenas de força, mas de
-      repetição, equilíbrio, leitura do adversário e autocontrole.
-    </p>
-  </div>
-
-  <!-- divisor -->
-  <div class="od"><span class="g">✦ ✦ ✦</span></div>
-
-  <!-- SANGRADO -->
-  <div class="sang diag">
-    <div class="slot-wrap">
-      <div class="slot">
-        <div class="sp"></div><div class="sc"></div>
-        <svg class="si" width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="var(--slot-borda)" stroke-width="1" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="64" height="64" rx="1"/>
-          <path d="M4 50 L24 30 L36 40 L48 26 L68 46"/>
-          <circle cx="52" cy="20" r="9"/>
-        </svg>
-        <span class="sl">tatame em destaque — visão ampla</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- DUO 1 — imagem + texto -->
-  <div class="duo">
-    <div class="slot-wrap">
-      <div class="slot">
-        <div class="sp"></div><div class="sc"></div>
-        <span class="sl">postura básica · 4:3</span>
-      </div>
-    </div>
-    <div class="bt" style="padding-top:0;">
-      <span class="sn">02</span>
-      <h2>Base, guarda e movimentação</h2>
-      <p>
-        Toda arte marcial começa com a base. A posição dos pés define o equilíbrio,
-        a guarda protege o centro e a movimentação decide quem controla a distância.
+  <main id="conteudo">
+    <div class="bt" style="padding-top:9rem;">
+      <span class="sn">01</span>
+      <span class="nm">origem do caminho</span>
+      <h2>O espírito das <em>artes marciais</em></h2>
+      <p class="dc">
+        Artes marciais são mais do que luta: são disciplina, controle emocional,
+        técnica refinada e respeito ao próprio limite.
       </p>
       <p>
-        Um lutador eficiente não é o que se mexe mais, e sim o que se move com
-        propósito. Pequenos ajustes de ângulo e distância mudam completamente o combate.
+        Antes do golpe existe postura. Antes da postura existe atenção. E antes da
+        atenção existe treino. O caminho marcial não depende apenas de força, mas de
+        repetição, equilíbrio, leitura do adversário e autocontrole.
       </p>
     </div>
-  </div>
 
-  <!-- PULL QUOTE -->
-  <div class="pq">
-    <span class="pq-q">"</span>
-    <blockquote>
-      "A força assusta. A técnica convence. A disciplina transforma."
-    </blockquote>
-    <cite>— Filosofia marcial • 2026</cite>
-  </div>
+    <div class="od"><span class="g">✦ ✦ ✦</span></div>
 
-  <!-- TÓPICOS 1 -->
-  <div class="btop">
-    <span class="sn">03</span>
-    <h3>Princípios fundamentais</h3>
-    <ul>
-      <li>Disciplina antes da pressa</li>
-      <li>Controle antes da agressão</li>
-      <li>Equilíbrio antes da potência</li>
-      <li>Precisão antes da repetição cega</li>
-      <li>Respeito ao adversário e ao treino</li>
-    </ul>
-  </div>
-
-  <div class="lo"></div>
-
-  <!-- FUNDO ALTERNADO + FLUTUANTE -->
-  <div class="bgalt">
-    <div style="overflow:hidden;">
-      <div class="flutuante slot-wrap">
+    <div class="sang diag">
+      <div class="slot-wrap">
         <div class="slot">
-          <div class="sp"></div>
-          <span class="sl">sequência técnica em movimento</span>
+          <div class="sp"></div><div class="sc"></div>
+          <img class="img-slot" src="imagens/8.jpg" alt="Tatame em destaque">
+          <svg class="si" width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="var(--slot-borda)" stroke-width="1" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="64" height="64" rx="1"/>
+            <path d="M4 50 L24 30 L36 40 L48 26 L68 46"/>
+            <circle cx="52" cy="20" r="9"/>
+          </svg>
+          <span class="sl">tatame em destaque — visão ampla</span>
         </div>
       </div>
-      <div class="bt" style="padding-top:0; max-width:100%;">
-        <span class="sn">04</span>
-        <h2>Treino técnico em sequência</h2>
+    </div>
+
+    <div class="duo">
+      <div class="slot-wrap">
+        <div class="slot">
+          <div class="sp"></div><div class="sc"></div>
+          <img class="img-slot" src="imagens/9.jpg" alt="Postura marcial">
+          <span class="sl">postura básica · 4:3</span>
+        </div>
+      </div>
+      <div class="bt" style="padding-top:0;">
+        <span class="sn">02</span>
+        <h2>Base, guarda e movimentação</h2>
         <p>
-          O treino marcial combina repetição, ritmo e coordenação. Cada golpe,
-          esquiva e defesa precisa estar conectado ao próximo movimento.
-        </p>
-        <p class="bar">
-          Um bom treino não forma apenas lutadores — forma pessoas com foco,
-          paciência e autocontrole.
+          Toda arte marcial começa com a base. A posição dos pés define o equilíbrio,
+          a guarda protege o centro e a movimentação decide quem controla a distância.
         </p>
         <p>
-          A evolução aparece quando técnica, respiração e reação passam a funcionar
-          como uma única linguagem corporal.
+          Um aluno eficiente não é o que se mexe mais, e sim o que se move com
+          propósito. Pequenos ajustes de ângulo e distância mudam completamente o combate.
         </p>
       </div>
     </div>
-  </div>
 
-  <!-- TÍTULO MOSAICO -->
-  <div class="bt cen" style="padding-top:7rem; padding-bottom:0; max-width:100%;">
-    <span class="sn" style="left:auto; right:0;">05</span>
-    <h2>BANCO DE TÉCNICAS</h2>
-  </div>
+    <div class="pq">
+      <span class="pq-q">"</span>
+      <blockquote>
+        "A força assusta. A técnica convence. A disciplina transforma."
+      </blockquote>
+      <cite>— Filosofia marcial • 2026</cite>
+    </div>
 
-  <!-- MOSAICO -->
-  <div class="mosaico">
-    <div class="slot-wrap m1"><div class="slot" style="height:100%;"><div class="sp"></div><span class="sl">guarda</span></div></div>
-    <div class="slot-wrap m2"><div class="slot" style="height:100%;"><div class="sp"></div><span class="sl">ataque</span></div></div>
-    <div class="slot-wrap m3"><div class="slot" style="height:100%;"><div class="sp"></div><span class="sl">defesa</span></div></div>
-    <div class="slot-wrap m4"><div class="slot" style="height:100%;"><div class="sp"></div><span class="sl">deslocamento</span></div></div>
-    <div class="slot-wrap m5"><div class="slot" style="height:100%;"><div class="sp"></div><span class="sl">contragolpe</span></div></div>
-  </div>
+    <div class="btop">
+      <span class="sn">03</span>
+      <h3>Princípios fundamentais</h3>
+      <ul>
+        <li>Disciplina antes da pressa</li>
+        <li>Controle antes da agressão</li>
+        <li>Equilíbrio antes da potência</li>
+        <li>Precisão antes da repetição cega</li>
+        <li>Respeito ao adversário e ao treino</li>
+      </ul>
+    </div>
 
-  <!-- DUO 2 invertido — imagem alta -->
-  <div class="duo inv alto" style="padding-top:6rem;">
-    <div class="slot-wrap">
-      <div class="slot h">
-        <div class="sp"></div><div class="sc"></div>
-        <span class="sl">treino vertical · 3:4</span>
+    <div class="lo"></div>
+
+    <div class="bgalt">
+      <div style="overflow:hidden;">
+        <div class="flutuante slot-wrap">
+          <div class="slot">
+            <div class="sp"></div>
+            <span class="sl">sequência técnica em movimento</span>
+          </div>
+        </div>
+        <div class="bt" style="padding-top:0; max-width:100%;">
+          <span class="sn">04</span>
+          <h2>Treino técnico em sequência</h2>
+          <p>
+            O treino marcial combina repetição, ritmo e coordenação. Cada golpe,
+            esquiva e defesa precisa estar conectado ao próximo movimento.
+          </p>
+          <p class="bar">
+            Um bom treino não forma apenas lutadores — forma pessoas com foco,
+            paciência e autocontrole.
+          </p>
+          <p>
+            A evolução aparece quando técnica, respiração e reação passam a funcionar
+            como uma única linguagem corporal.
+          </p>
+        </div>
       </div>
     </div>
-    <div class="bt" style="padding-top:0;">
-      <span class="sn">06</span>
-      <h2>Resistência e evolução</h2>
+
+    <div class="bt cen" style="padding-top:7rem; padding-bottom:0; max-width:100%;">
+      <span class="sn" style="left:auto; right:0;">05</span>
+      <h2>BANCO DE TÉCNICAS</h2>
+    </div>
+
+    <div class="mosaico">
+      <div class="slot-wrap m1">
+        <div class="slot" style="height:100%;">
+          <div class="sp"></div>
+          <span class="sl">guarda</span>
+        </div>
+      </div>
+      <div class="slot-wrap m2">
+        <div class="slot" style="height:100%;">
+          <div class="sp"></div>
+          <span class="sl">ataque</span>
+        </div>
+      </div>
+      <div class="slot-wrap m3">
+        <div class="slot" style="height:100%;">
+          <div class="sp"></div>
+          <span class="sl">defesa</span>
+        </div>
+      </div>
+      <div class="slot-wrap m4">
+        <div class="slot" style="height:100%;">
+          <div class="sp"></div>
+          <span class="sl">deslocamento</span>
+        </div>
+      </div>
+      <div class="slot-wrap m5">
+        <div class="slot" style="height:100%;">
+          <div class="sp"></div>
+          <span class="sl">contragolpe</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="duo inv alto" style="padding-top:6rem;">
+      <div class="slot-wrap">
+        <div class="slot h">
+          <div class="sp"></div><div class="sc"></div>
+          <span class="sl">treino vertical · 3:4</span>
+        </div>
+      </div>
+      <div class="bt" style="padding-top:0;">
+        <span class="sn">06</span>
+        <h2>Resistência e evolução</h2>
+        <p>
+          No combate real, resistência física e mental andam juntas. O corpo aguenta
+          mais quando a mente não desiste no primeiro desconforto.
+        </p>
+        <p>
+          Técnicas simples, quando treinadas com consistência, viram respostas automáticas.
+          É aí que o treino começa a parecer arte.
+        </p>
+      </div>
+    </div>
+
+    <div class="od"><span class="g">§</span></div>
+
+    <div class="bgalt2">
+      <div class="btop cen">
+        <span class="sn" style="left:auto; right:-3rem;">07</span>
+        <h3>Estrutura do aprendizado</h3>
+        <ol>
+          <li>Aprender a base e a postura</li>
+          <li>Dominar a defesa e o equilíbrio</li>
+          <li>Treinar deslocamento e distância</li>
+          <li>Unir técnica, ritmo e reação</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="bt cen" style="padding-bottom:0; max-width:100%;">
+      <span class="sn" style="left:auto; right:0;">08</span>
+      <h2>Galeria marcial</h2>
+    </div>
+
+    <div class="trio">
+      <div class="item">
+        <div class="slot-wrap" style="position:relative;">
+          <div class="slot circular" style="width:240px; height:240px;">
+            <div class="sp"></div>
+            <span class="sl">concentração</span>
+          </div>
+        </div>
+        <span class="il">legenda · concentração</span>
+      </div>
+
+      <div class="item">
+        <div class="slot-wrap" style="position:relative;">
+          <div class="slot circular" style="width:360px; height:360px;">
+            <div class="sp"></div>
+            <span class="sl">técnica central</span>
+          </div>
+        </div>
+        <span class="il">legenda · técnica central</span>
+      </div>
+
+      <div class="item">
+        <div class="slot-wrap" style="position:relative;">
+          <div class="slot circular" style="width:200px; height:200px;">
+            <div class="sp"></div>
+            <span class="sl">disciplina</span>
+          </div>
+        </div>
+        <span class="il">legenda · disciplina</span>
+      </div>
+    </div>
+
+    <div class="pill-wrap">
+      <div class="slot-wrap" style="position:relative; border-radius:999px; overflow:hidden;">
+        <div class="slot pill" style="width:100%; height:130px;">
+          <div class="sp"></div>
+          <span class="sl">faixa, tatame e tradição · foco · ritmo · precisão</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bt cen" style="padding-top:8rem; padding-bottom:9rem;">
+      <span class="sn" style="left:auto; right:0;">09</span>
+      <h2>Conclusão do caminho</h2>
       <p>
-        No combate real, resistência física e mental andam juntas. O corpo aguenta
-        mais quando a mente não desiste no primeiro desconforto.
-      </p>
-      <p>
-        Técnicas simples, quando treinadas com consistência, viram respostas automáticas.
-        É aí que o treino começa a parecer arte.
+        A arte marcial termina no respeito: ao corpo, ao treino, ao adversário e ao
+        próprio processo de evolução.
       </p>
     </div>
-  </div>
-
-  <div class="od"><span class="g">§</span></div>
-
-  <!-- FUNDO ALTERNADO 2 + TÓPICOS NUMERADOS -->
-  <div class="bgalt2">
-    <div class="btop cen">
-      <span class="sn" style="left:auto; right:-3rem;">07</span>
-      <h3>Estrutura do aprendizado</h3>
-      <ol>
-        <li>Aprender a base e a postura</li>
-        <li>Dominar a defesa e o equilíbrio</li>
-        <li>Treinar deslocamento e distância</li>
-        <li>Unir técnica, ritmo e reação</li>
-      </ol>
-    </div>
-  </div>
-
-  <!-- TRIO CIRCULAR -->
-  <div class="bt cen" style="padding-bottom:0; max-width:100%;">
-    <span class="sn" style="left:auto; right:0;">08</span>
-    <h2>Galeria marcial</h2>
-  </div>
-
-  <div class="trio">
-    <div class="item">
-      <div class="slot-wrap" style="position:relative;">
-        <div class="slot circular" style="width:240px; height:240px;">
-          <div class="sp"></div>
-        </div>
-      </div>
-      <span class="il">legenda · concentração</span>
-    </div>
-    <div class="item">
-      <div class="slot-wrap" style="position:relative;">
-        <div class="slot circular" style="width:360px; height:360px;">
-          <div class="sp"></div>
-        </div>
-      </div>
-      <span class="il">legenda · técnica central</span>
-    </div>
-    <div class="item">
-      <div class="slot-wrap" style="position:relative;">
-        <div class="slot circular" style="width:200px; height:200px;">
-          <div class="sp"></div>
-        </div>
-      </div>
-      <span class="il">legenda · disciplina</span>
-    </div>
-  </div>
-
-  <!-- PILL -->
-  <div class="pill-wrap">
-    <div class="slot-wrap" style="position:relative; border-radius:999px; overflow:hidden;">
-      <div class="slot pill" style="width:100%; height:130px;">
-        <div class="sp"></div>
-        <span class="sl">faixa, tatame e tradição · foco · ritmo · precisão</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- TEXTO FINAL -->
-  <div class="bt cen" style="padding-top:8rem; padding-bottom:9rem;">
-    <span class="sn" style="left:auto; right:0;">09</span>
-    <h2>Conclusão do caminho</h2>
-    <p>
-      A arte marcial termina no respeito: ao corpo, ao treino, ao adversário e ao
-      próprio processo de evolução.
-    </p>
-  </div>
-
-</main>
-
   </main>
 
-
-  <!-- RODAPÉ -->
   <footer>
-    <p>Edite aqui · rodapé à esquerda</p>
+    <p>artes marciais · composição visual</p>
     <span class="fo">✦ ✦ ✦</span>
-    <p>rodapé à direita · ano</p>
+    <p>2026</p>
   </footer>
 
-
   <script>
-    /* ── Troca de tema ── */
     function setTema(t) {
       document.documentElement.className = 'tema-' + t;
       document.querySelectorAll('#temas button').forEach(b => b.classList.remove('ativo'));
       document.querySelector('#temas .t' + t).classList.add('ativo');
     }
 
-    /* ── Reveal ao rolar ── */
     const els = document.querySelectorAll(
       '.bt, .btop, .duo, .mosaico, .trio, .pq, .pill-wrap, .sang, .bgalt, .bgalt2, .od'
     );
@@ -909,20 +1036,18 @@
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          e.target.style.opacity   = '1';
+          e.target.style.opacity = '1';
           e.target.style.transform = 'translateY(0)';
         }
       });
     }, { threshold: 0.08 });
 
     els.forEach(el => {
-      el.style.opacity    = '0';
-      el.style.transform  = 'translateY(26px)';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(26px)';
       el.style.transition = 'opacity .72s ease, transform .72s ease';
       io.observe(el);
     });
   </script>
-
 </body>
 </html>
-
